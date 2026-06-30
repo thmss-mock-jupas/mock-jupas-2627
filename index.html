@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HKTA THMSS Mock JUPAS (26-27)</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #333;
+            padding: 40px 20px;
+            margin: 0;
+            min-height: 100vh;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('detail_1749691638D8eAP.jpg');
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        h2 {
+            margin-top: 0;
+            color: #1a365d;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .instruction-paragraph {
+            color: #4a5568;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .instruction-paragraph a {
+            color: #3182ce;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .instruction-paragraph a:hover {
+            text-decoration: underline;
+        }
+        .student-info-grid {
+            background-color: rgba(235, 248, 255, 0.9);
+            border: 1px solid #bee3f8;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .info-field label {
+            font-weight: 600;
+            color: #2b6cb0;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .info-field input, .info-field select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            background-color: #fff;
+            height: 40px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: middle;
+        }
+        th {
+            background-color: rgba(247, 250, 252, 0.9);
+            color: #2d3748;
+            font-weight: 600;
+        }
+        .band-A { background-color: rgba(255, 250, 240, 0.85); }
+        .band-B { background-color: rgba(247, 250, 252, 0.85); }
+        .band-C { background-color: rgba(240, 255, 244, 0.85); }
+        
+        .choice-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .band-A .choice-badge { background: #feebc8; color: #c05621; }
+        .band-B .choice-badge { background: #e2e8f0; color: #4a5568; }
+        .band-C .choice-badge { background: #c6f6d5; color: #22543d; }
+
+        select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            background-color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+        select:focus {
+            border-color: #3182ce;
+        }
+        select:disabled {
+            background-color: #edf2f7;
+            cursor: not-allowed;
+        }
+        .btn-submit {
+            background-color: #3182ce;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            float: right;
+            transition: background-color 0.2s;
+        }
+        .btn-submit:hover {
+            background-color: #2b6cb0;
+        }
+
+        /* Displays selection summary spans neatly */
+        .summary-text-display {
+            display: none;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: #1a202c;
+            word-break: break-word;
+            font-weight: 500;
+        }
+        
+        /* Interactive State styles for displaying responses after submission */
+        .show-summary-mode .summary-text-display {
+            display: block !important;
+        }
+        .show-summary-mode select, .show-summary-mode input, .show-summary-mode .form-exclude {
+            display: none !important;
+        }
+        
+        /* Success message banner */
+        #successBanner {
+            display: none;
+            background-color: #c6f6d5;
+            border: 1px solid #38a169;
+            color: #22543d;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="mainContainer">
+    <h2>HKTA THMSS Mock JUPAS (26-27)</h2>
+    
+    <div id="successBanner">🎉 Submission Successful! Your mock choices have been saved. Here is your summary copy:</div>
+    
+    <div class="instruction-paragraph form-exclude">
+        Reference: <a href="https://www.jupas.edu.hk/en/" target="_blank">https://www.jupas.edu.hk/en/</a><br><br>
+        Please complete the Mock JUPAS by 14/Oct (Wed) 23:59.<br>
+        You are required to fill in the choices from Band A to Band C (A1 - C10)
+    </div>
+    
+    <form id="programForm" onsubmit="handleSubmit(event)">
+        <div class="student-info-grid">
+            <div class="info-field">
+                <label>English Name:</label>
+                <input type="text" id="englishName" name="englishName" required placeholder="e.g., Chan Tai Man">
+                <span class="summary-text-display" id="lbl_englishName"></span>
+            </div>
+            
+            <div class="info-field">
+                <label>Class:</label>
+                <select id="studentClass" name="studentClass" required>
+                    <option value="">-- Select Class --</option>
+                    <option value="6A">6A</option>
+                    <option value="6B">6B</option>
+                    <option value="6C">6C</option>
+                    <option value="6D">6D</option>
+                    <option value="6E">6E</option>
+                </select>
+                <span class="summary-text-display" id="lbl_studentClass"></span>
+            </div>
+
+            <div class="info-field">
+                <label>Class Number:</label>
+                <select id="classNumber" name="classNumber" required>
+                    <option value="">-- Select No. --</option>
+                </select>
+                <span class="summary-text-display" id="lbl_classNumber"></span>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 15%;">Choice</th>
+                    <th style="width: 35%;">University</th>
+                    <th style="width: 50%;">Program</th>
+                </tr>
+            </thead>
+            <tbody id="formRows">
+            </tbody>
+        </table>
+        <button type="submit" class="btn-submit" id="submitBtn">Submit Choices</button>
+    </form>
+</div>
+
+<script>
+    const universityData = {
+        "CityU": [
+            "JS1000 : BSc Computational Finance and Financial Technology (streams: Computational Finance / Financial Technology)",
+            "JS1001 : BBA Global Business (Features: 3 Exchanges/Joint Bachelor's Degree Program with Columbia University (US)/Overseas Summer School & Study Tour/Business Consultancy Project/Scholarship and Sponsorship)",
+            "JS1002 : BBA Accountancy (Streams: Professional Accounting / ESG and Tech)",
+            "JS1005 : BBA Management (Streams: Human Resources Management / Strategy and International Management)",
+            "JS1007 : BBA Marketing (Streams: Global Marketing / Marketing Analytics)",
+            "JS1012 : Economics and Finance (Majors: BBA Business Economics / BBA Finance)",
+            "JS1013 : BBA Business Economics (Features: Economic Theory / International Economics / Economic and Business Forecasting / Quantitative Analysis)",
+            "JS1014 : BBA Finance (Features: Investment Analysis / Financial Markets / Corporate Finance / Risk Management / Trading Room Workshop)",
+            "JS1017 : Intelligent Information Systems [Majors: BBA Global Business Systems Management / BBA Artificial Intelligence in Business]",
+            "JS1018 : BBA Global Business Systems Management (Features: Intelligent Technologies / Global Business / Study Exchange)",
+            "JS1019 : BBA Artificial Intelligence in Business (Streams: Business Intelligence / Information Systems Auditing / Internet Services and Social Networks / Data Informatics)",
+            "JS1026 : BBA Business Decision Analytics (Streams: Decision Analytics / Data Informatics)",
+            "JS1027 : BBA Global Operations Management (Features: Supply Chain Management / Operations Efficiency / Process Improvement / Operations Analytics / Resource Planning)",
+            "JS1040 : Creative Arts and Technology Excellence (CREATE) (Options: Creative Media (School-based)/ BA Creative Media / BSc Creative Media / BAS New Media)",
+            "JS1041 : Creative Media (Majors: BA Creative Media / BSc Creative Media / BAS New Media)",
+            "JS1042 : BA Creative Media (Features: Animation / Cinema & Photography / Critical Theory & Practices / Game & Playable Media / New Media Art / Sound Art)",
+            "JS1043 : BSc Creative Media (Features: Combination of Creative Media and Computer Science Courses / Animation / Games / Installation / Interactivity)",
+            "JS1044 : BAS New Media (Features: Media Art / Robotics & AI / Art & Technology / Materials & Digital Fabrication)",
+            "JS1050 : International Sustainability Programme for Innovation, Research & Entrepreneurship(INSPIRE) (Majors: BEng Energy Science & Engineering/BEng Environmental Science & Engineering +Features: Global Focus)",
+            "JS1051 : Energy and Environment (Majors: BEng Energy Science and Engineering / BEng Environmental Science and Engineering)",
+            "JS1052 : BEng Environmental Science and Engineering and BBA Finance (Double Degree; Features: Environmental, Social & Governance (ESG) / Green Finance / Environmental Technology / Interdisciplinary Education)",
+            "JS1053 : BSc Environment and Sustainable Business (Features: Environmental Science / Business Sustainability / Environmental, Social & Governance (ESG))",
+            "JS1061 : Bachelor of Laws",
+            "JS1062 : Bachelor of Laws and BBA Accountancy (Double Degree)",
+            "JS1070 : AI, Computing and Transformation (ACT) (Features: Free Choice of Major / One-to-One Advisor / Elite Work Placement / Executive Mentor Scheme / Premium Overseas Exchange / Internship Exchange)",
+            "JS1071 : Data Science (Majors: BSc Data Science / BSc Data and Systems Engineering)",
+            "JS1072 : BSc Data Science (Features: Data Science / Machine Learning / Data Mining / Big Data Analysis)",
+            "JS1074 : BSc Data and Systems Engineering (Features: Data Science / FinTech & Decision Analytics / Industrial AI / Smart City)",
+            "JS1102 : BSocSc International Relations and Global Affairs (Streams: Asian Studies / International Studies / Development Studies)",
+            "JS1103 : BA Chinese and History (Streams: Chinese / History and Cultural Heritage)",
+            "JS1104 : BA English (Streams: English and Professional Communication / Language and Literature)",
+            "JS1106 : Media and Communication (Majors: BA Digital Television and Broadcasting / BA Media and Communication)",
+            "JS1108 : BSocSc Public Affairs and Management (Streams: Public Affairs and Governance / Public Policy and Management)",
+            "JS1109 : BA Linguistics and Language Applications (Features: General Linguistics / Computational Linguistics / Corpus Linguistics / Experimental Linguistics / Language Technology and Applications)",
+            "JS1111 : BSocSc Crime Science (Features: Crime Prevention / Security Practice / Global Policing / Crime Analytics / Cyber and Future Crimes)",
+            "JS1112 : BSocSc Psychology (Streams: Health and Development / Mind and Brain)",
+            "JS1113 : BSocSc Social Work (Features: Social Engagement and Concern for People's Health and Well-Being / Human Diversities and Sustainability / People-in-Environment Interventions)",
+            "JS1123 : BSocSc Crime Science and Bachelor of Laws (Double Degree)",
+            "JS1200 : Global Research Enrichment and Technopreneurship (GREAT) (any major in College of Engineering + Features: Research / Innovation / Technopreneurship)",
+            "JS1201 : Architecture and Civil Engineering (Majors: BEng Architectural Engineering / BEng Civil Engineering / BSc Architecture and Surveying)",
+            "JS1205 : Electrical Engineering (Majors: BEng Computer and Data Engineering / BEng Electronic and Electrical Engineering / BEng Information Engineering / BEng Microelectronics Engineering)",
+            "JS1207 : Mechanical Engineering (Majors: BEng Aerospace Engineering / BEng Mechanical Engineering / BEng Nuclear and Risk Engineering)",
+            "JS1210 : BEng Materials Science and Engineering (Features: HKIE Accredited / Industrial and Research Internships / Overseas Double-degrees / Knowledge Transfer / World-leading Research)",
+            "JS1211 : BEng Biomedical Engineering (Features: Medical Technology / Bioinstrumentation / Cell and Tissue Engineering / Biomedical Robotics)",
+            "JS1216 : BEng Intelligent Manufacturing Engineering (Features: Industrial Internet-of-Things / Industrial Big Data / Robotics and Automation / Logistics and Supply Chain / Smart City Engineering)",
+            "JS1217 : Pathway for Research, Innovation, and Multinational Engineering (PRIME) (any major in College of Engineering + Overseas Experience / Interdisciplinary / Entrepreneurial Training)",
+            "JS1219 : BEng Innovation and Enterprise Engineering (Features: Engineering / Technology / Innovation / Enterprise / Entrepreneurship)",
+            "JS1300 : Integrative Bioscience & Bioengineering Programme (Bio3) (Features: Free Choice of Major / Overseas Research Opportunities / Interdisciplinary)",
+            "JS1801 : Bachelor of Veterinary Medicine (Features: One Health / Animal Health & Welfare / Public Health / Dual Accreditation)",
+            "JS1805 : Biomedical Sciences (Majors: BSc Biological Sciences / BSc Biomedical Sciences)",
+            "JS1806 : BSc Biological Sciences (Features: Bioinformatics, Biochemistry, Genetics, Cellular & Molecular Biology, Immunology / Research Rotation Projects for Hands-on Experience)",
+            "JS1807 : BSc Biomedical Sciences (Features: Clinical Chemistry, Hematology, Microbiology and Pathology / Clinical or Industrial Attachment / Intensive Laboratory Experience)"
+        ],
+        "HKBU": [
+            "JS2020 : Bachelor of Arts (Hons)",
+            "JS2025 : Bachelor of Arts (Hons) in Religion, Philosophy and Ethics",
+            "JS2060 : Bachelor of Arts (Hons) / Bachelor of Music (Hons)",
+            "JS2110 : Bachelor of Business Administration (Hons) - Accounting Concentration",
+            "JS2120 : Bachelor of Business Administration (Hons)",
+            "JS2310 : Bachelor of Communication (Hons)",
+            "JS2330 : Bachelor of Arts (Hons) in Film and Television",
+            "JS2340 : Bachelor of Fine Arts (Hons) in Acting for Global Screen",
+            "JS2370 : Bachelor of Communication (Hons) in Game Design and Animation",
+            "JS2410 : Bachelor of Chinese Medicine and Bachelor of Science (Hons) in Biomedical Science",
+            "JS2420 : Bachelor of Pharmacy (Hons) in Chinese Medicine",
+            "JS2510 : Bachelor of Science (Hons)",
+            "JS2610 : Bachelor of Arts (Hons) / Bachelor of Social Sciences (Hons)",
+            "JS2620 : Bachelor of Arts (Hons) in Physical Education and Recreation Management",
+            "JS2660 : Bachelor of Social Work (Hons)",
+            "JS2810 : Bachelor of Arts (Hons) in Visual Arts",
+            "JS2910 : Bachelor of Science (Hons) in Business Computing and Data Analytics",
+            "JS2920 : Bachelor of Arts and Science (Hons) in Arts and Technology",
+            "JS2930 : Bachelor of Arts (Hons) in Business Administration (Global Entertainment)",
+            "JS2940 : Bachelor of Social Sciences (Hons) / Bachelor of Science (Hons) in Innovation in Health and Social Well-Being",
+            "JS2950 : Bachelor of Arts, Science and Technology (Hons) in Individualised Major",
+            "JS2960 : Bachelor of Arts and Science (Hons) in Digital Futures and Humanities"
+        ],
+        "PolyU": [
+            "JS3000 : Bachelor's Degree Scheme in Interdisciplinary Studies",
+            "JS3003 : Bachelor's Degree Scheme in Business Administration",
+            "JS3004 : Bachelor's Degree Scheme in Construction and Environment",
+            "JS3005 : Bachelor's Degree Scheme in Engineering",
+            "JS3006 : Bachelor's Degree Scheme in Computer and Mathematical Sciences",
+            "JS3007 : Bachelor's Degree Scheme in Humanities",
+            "JS3008 : Bachelor's Degree Scheme in Science",
+            "JS3011 : BSc Scheme in Biotechnology and Chemical Technology",
+            "JS3030 : BSc in Physics with a Secondary Major in Artificial Intelligence & Data Analytics / Innovation and Entrepreneurship",
+            "JS3050 : BA Scheme in Fashion",
+            "JS3060 : BBA Scheme in Accounting and Finance",
+            "JS3100 : BEng Scheme in Electrical Engineering",
+            "JS3110 : BEng Scheme in Building Sciences and Engineering",
+            "JS3120 : BEng Scheme in Product Innovation and Smart Manufacturing",
+            "JS3130 : BBA Scheme in Global Business and Logistics, Aviation, Maritime, and Supply Chain Management",
+            "JS3140 : BEng Scheme in Aviation Engineering",
+            "JS3150 : BSc in Biomedical Engineering",
+            "JS3170 : BEng Scheme in Environmental Engineering and Sustainable Development",
+            "JS3180 : BSc Scheme in Spatial Data Science and Smart Cities",
+            "JS3211 : BEng in Building Sciences and Engineering",
+            "JS3214 : BSc in Architectural Studies",
+            "JS3220 : BSc Scheme in Applied Mathematics and Finance Analytics",
+            "JS3223 : BSc Scheme in Data Science and Artificial Intelligence",
+            "JS3230 : BA Scheme in English and Applied Linguistics",
+            "JS3240 : BA in Chinese History and Culture",
+            "JS3241 : BSc in Language Science and Technology",
+            "JS3250 : BA Scheme in Applied Social Sciences",
+            "JS3255 : BSc Scheme in Food Science and Nutrition",
+            "JS3290 : BSc Scheme in Sports Science and Technology",
+            "JS3310 : BSc Scheme in Hotel and Tourism Management",
+            "JS3400 : BBA Scheme in Management and Marketing",
+            "JS3430 : BEng / BSc Scheme in Information and Artificial Intelligence Engineering",
+            "JS3466 : BSc Scheme in Intelligent Supply Chain and Engineering Management",
+            "JS3569 : Bachelor of Arts Scheme in Design",
+            "JS3612 : BSc in Radiography",
+            "JS3624 : BSc in Occupational Therapy",
+            "JS3636 : BSc in Physiotherapy",
+            "JS3648 : BSc in Nursing",
+            "JS3650 : BSc in Medical Laboratory Science",
+            "JS3662 : BSc in Mental Health Nursing",
+            "JS3674 : BSc in Optometry",
+            "JS3686 : BSc in Radiography",
+            "JS3739 : BEng in Civil Engineering",
+            "JS3741 : BEng Scheme in Mechanical Engineering",
+            "JS3789 : BSc in Surveying",
+            "JS3791 : BSc in Building Engineering and Management",
+            "JS3868 : BSc Scheme in Computing and AI"
+        ],
+        "CUHK": [
+            "JS4006 : Anthropology",
+            "JS4018 : Chinese Language and Literature",
+            "JS4032 : English",
+            "JS4044 : Fine Arts",
+            "JS4056 : History",
+            "JS4068 : Japanese Studies",
+            "JS4070 : Linguistics",
+            "JS4082 : Music",
+            "JS4094 : Philosophy",
+            "JS4100 : Public Humanities",
+            "JS4109 : Religious Studies",
+            "JS4111 : Theology",
+            "JS4123 : Translation",
+            "JS4136 : Chinese Studies",
+            "JS4202 : Integrated Bachelor of Business Administration Programme",
+            "JS4214 : Global Business Studies",
+            "JS4226 : Hospitality and Real Estate",
+            "JS4238 : Insurance, Financial and Actuarial Analysis",
+            "JS4240 : Professional Accountancy",
+            "JS4252 : Quantitative Finance",
+            "JS4254 : Interdisciplinary Major Programme in Global Economics and Finance",
+            "JS4264 : Bachelor of Business Administration (Integrated BBA Programme) and Juris Doctor Double Degree Programme",
+            "JS4276 : Quantitative Finance and Risk Management Science",
+            "JS4320 : Human Movement Science and Health Studies",
+            "JS4329 : Physical Education, Exercise Science and Health",
+            "JS4331 : B.A. (Chinese Language Studies) and B.Ed. (Chinese Language Education)",
+            "JS4343 : B.A. (English Studies) and B.Ed. (English Language Education)",
+            "JS4361 : B.Ed. in Mathematics and Mathematics Education",
+            "JS4372 : B.Ed. in Early Childhood Education",
+            "JS4386 : B.Sc. in Learning Design and Technology",
+            "JS4408 : Mechanical and Automation Engineering",
+            "JS4412 : Computer Science and Engineering",
+            "JS4416 : Computational Data Science",
+            "JS4428 : Financial Technology",
+            "JS4434 : Electronic Engineering",
+            "JS4446 : Information Engineering",
+            "JS4458 : Systems Engineering and Engineering Management",
+            "JS4460 : Biomedical Engineering",
+            "JS4462 : Energy and Environmental Engineering",
+            "JS4468 : Artificial Intelligence: Systems and Technologies",
+            "JS4470 : Materials Science and Engineering",
+            "JS4501 : Bachelor of Medicine and Bachelor of Surgery (MBChB)",
+            "JS4502 : Bachelor of Medicine and Bachelor of Surgery – Global Physician-Leadership Stream (MBChB-GPS)",
+            "JS4513 : Nursing",
+            "JS4525 : Pharmacy",
+            "JS4537 : Public Health",
+            "JS4542 : Chinese Medicine",
+            "JS4550 : Biomedical Sciences",
+            "JS4601 : Science",
+            "JS4648 : Earth and Environmental Sciences",
+            "JS4725 : Biotechnology, Entrepreneurship and Healthcare Management",
+            "JS4733 : Mathematics and Information Engineering",
+            "JS4750 : Aerospace Science and Earth Informatics & X Double Major Programme",
+            "JS4760 : Bachelor of Science in Interdisciplinary Data Analytics and X Double Major Programme",
+            "JS4801 : Social Science",
+            "JS4812 : Architectural Studies",
+            "JS4824 : Economics",
+            "JS4836 : Geography and Resource Management",
+            "JS4838 : Urban Studies",
+            "JS4848 : Government and Public Administration",
+            "JS4850 : Journalism and Communication",
+            "JS4862 : Psychology",
+            "JS4874 : Social Work",
+            "JS4886 : Sociology",
+            "JS4892 : Global Studies",
+            "JS4898 : Diplomacy and International Studies",
+            "JS4903 : Bachelor of Laws"
+        ],
+        "HKU": [
+            "JS6004 : Bachelor of Arts in Architectural Studies",
+            "JS6016 : Bachelor of Science in Surveying",
+            "JS6028 : Bachelor of Arts in Landscape Studies",
+            "JS6042 : Bachelor of Arts in Urban Studies",
+            "JS6054 : Bachelor of Arts",
+            "JS6066 : Bachelor of Arts and Bachelor of Education in Language Education - English",
+            "JS6078 : Bachelor of Arts and Bachelor of Laws",
+            "JS6080 : Bachelor of Arts and Bachelor of Education in Language Education - Chinese",
+            "JS6092 : Bachelor of Education in Early Childhood Education and Special Education",
+            "JS6107 : Bachelor of Dental Surgery",
+            "JS6119 : Bachelor of Education and Bachelor of Science",
+            "JS6157 : Bachelor of Science in Speech-Language Pathology",
+            "JS6200 : Computing and Data Science (Delta+)",
+            "JS6224 : Bachelor of Arts and Sciences in Applied Artificial Intelligence",
+            "JS6236 : Bachelor of Arts and Sciences in Design+",
+            "JS6248 : Bachelor of Arts and Sciences in Financial Technology",
+            "JS6250 : Bachelor of Arts and Sciences in Global Health and Development",
+            "JS6274 : Bachelor of Arts in Global Creative Industries",
+            "JS6286 : Bachelor of Arts in Humanities and Digital Technologies",
+            "JS6298 : Bachelor of Arts and Bachelor of Engineering in Artificial Intelligence and Data Science",
+            "JS6303 : Bachelor of Engineering Elite Programme",
+            "JS6315 : Bachelor of Engineering in Data and Systems Engineering",
+            "JS6339 : Bachelor of Engineering in Mechanical Engineering",
+            "JS6353 : Bachelor of Engineering in Civil Engineering",
+            "JS6377 : Bachelor of Engineering and Master of Science in Engineering in Artificial Intelligence in Engineering",
+            "JS6406 : Bachelor of Laws",
+            "JS6418 : Bachelor of Nursing Advanced Leadership Track",
+            "JS6456 : Bachelor of Medicine and Bachelor of Surgery",
+            "JS6468 : Bachelor of Nursing",
+            "JS6482 : Bachelor of Chinese Medicine",
+            "JS6494 : Bachelor of Pharmacy",
+            "JS6602 : Bachelor of Science in Innovation and Technology",
+            "JS6626 : Bachelor of Medicine and Bachelor of Surgery (Distinguished MedScholar)",
+            "JS6688 : Science Master Class",
+            "JS6705 : Bachelor of Psychology",
+            "JS6717 : Bachelor of Social Sciences",
+            "JS6729 : Bachelor of Science in Actuarial Science",
+            "JS6731 : Bachelor of Social Work",
+            "JS6755 : Bachelor of Business Administration",
+            "JS6767 : Bachelor of Economics / Bachelor of Economics and Finance",
+            "JS6781 : Bachelor of Business Administration in Accounting and Finance",
+            "JS6793 : Bachelor of Business Administration in Business Analytics",
+            "JS6808 : Bachelor of Business Administration (Law) and Bachelor of Laws",
+            "JS6810 : Bachelor of Social Sciences (Government and Laws) and Bachelor of Laws",
+            "JS6822 : Bachelor of Journalism",
+            "JS6846 : Bachelor of Science in Marketing Analytics and Technology",
+            "JS6858 : Bachelor of Science and Bachelor of Laws",
+            "JS6860 : Bachelor of Finance in Asset Management and Private Banking",
+            "JS6884 : Bachelor of Science in Quantitative Finance",
+            "JS6896 : Bachelor of Business Administration in International Business and Global Management",
+            "JS6901 : Bachelor of Science",
+            "JS6925 : Bachelor of Engineering in Biomedical Engineering",
+            "JS6937 : Global Engineering and Business Programme",
+            "JS6949 : Bachelor of Biomedical Sciences",
+            "JS6951 : Bachelor of Engineering in Engineering Science",
+            "JS6963 : Bachelor of Engineering",
+            "JS6999 : Bachelor of Computing and Data Science"
+        ],
+        "HKUST": [
+            "JS5101 : International Research Enrichment",
+            "JS5102 : Science (Group A)",
+            "JS5103 : Science (Group B)",
+            "JS5181 : Science (Group A) with an Extended Major in Artificial Intelligence",
+            "JS5200 : Engineering",
+            "JS5282 : Engineering with an Extended Major in Artificial Intelligence",
+            "JS5300 : Business and Management",
+            "JS5311 : BBA in Professional Accounting",
+            "JS5312 : BBA in Economics",
+            "JS5313 : BBA in Finance",
+            "JS5314 : BBA in Global Business",
+            "JS5315 : BBA in Management",
+            "JS5316 : BBA in Marketing",
+            "JS5317 : BBA in Operations Management",
+            "JS5318 : BBA in Information Systems",
+            "JS5331 : BSc in Economics and Finance",
+            "JS5332 : BSc in Quantitative Finance",
+            "JS5411 : Global China Studies: Humanities and Social Science",
+            "JS5412 : Quantitative Social Analysis",
+            "JS5811 : BSc in Biotechnology and Business",
+            "JS5812 : BSc in Environmental Management and Technology",
+            "JS5813 : BSc in Risk Management and Business Intelligence",
+            "JS5814 : BSc in Sustainable and Green Finance",
+            "JS5822 : BSc in Integrative Systems and Design",
+            "JS5841 : BSc in Data Science and Technology",
+            "JS5851 : BSc in Mathematics and Economics",
+            "JS5901 : BEng/BSc & BBA Dual Degree Program in Technology & Management"
+        ],
+        "LU": [
+            "JS7101 : Bachelor of Arts (Honours) in Chinese",
+            "JS7123 : Bachelor of Liberal Arts (Honours) in Global Development and Sustainability",
+            "JS7133 : Bachelor of Arts (Honours) in Animation and Digital Arts",
+            "JS7204 : Bachelor of Arts (Honours) in Translation",
+            "JS7211 : Bachelor of Business Administration (Honours) - Accounting and Corporate Governance",
+            "JS7212 : Bachelor of Business Administration (Honours) - Business Analytics and Innovation",
+            "JS7213 : Bachelor of Business Administration (Honours) - Finance",
+            "JS7214 : Bachelor of Business Administration (Honours) - Management and Analytics",
+            "JS7215 : Bachelor of Business Administration (Honours) - Marketing and Social Media",
+            "JS7216 : Bachelor of Business Administration (Honours) - Risk and Insurance Management",
+            "JS7225 : Bachelor of Science (Honours) in Data Science",
+            "JS7301 : Bachelor of Social Sciences (Honours) - Economics",
+            "JS7302 : Bachelor of Social Sciences (Honours) - Government and International Affairs",
+            "JS7303 : Bachelor of Social Sciences (Honours) - Psychology",
+            "JS7305 : Bachelor of Social Sciences (Honours) - Sociology",
+            "JS7306 : Bachelor of Social Sciences (Honours) - Health and Social Services Management",
+            "JS7307 : Bachelor of Social Sciences (Honours) - Social Data Science",
+            "JS7503 : Bachelor of Arts (Honours) in English Studies",
+            "JS7606 : Bachelor of Arts (Honours) in Cultural Studies",
+            "JS7709 : Bachelor of Arts (Honours) in History",
+            "JS7802 : Bachelor of Arts (Honours) in Philosophy",
+            "JS7905 : Bachelor of Arts (Honours) in Film and Visual Arts"
+        ],
+        "EdUHK": [
+            "JS8001 : Bachelor of Arts (Honours) in Creative and Digital Arts and Bachelor of Education (Honours) (Music)",
+            "JS8002 : Bachelor of Arts (Honours) in Creative and Digital Arts and Bachelor of Education (Honours) (Visual Arts)",
+            "JS8003 : Bachelor of Arts (Honours) in Digital Chinese Culture and Communication and Bachelor of Education (Honours) (Chinese Language)",
+            "JS8004 : Bachelor of Arts (Honours) in English Studies and Digital Communication and Bachelor of Education (Honours) (English Language)",
+            "JS8005 : Bachelor of Arts (Honours) in Heritage Education and Arts Management and Bachelor of Education (Honours) (Chinese History)",
+            "JS8006 : Bachelor of Social Sciences (Honours) in Psychology and Bachelor of Education (Honours) (Early Childhood Education)",
+            "JS8007 : Bachelor of Arts (Honours) in Personal Finance and Bachelor of Education (Honours) (Business, Accounting and Financial Studies)",
+            "JS8008 : Bachelor of Science (Honours) in Artificial Intelligence and Educational Technology and Bachelor of Education (Honours) (Information and Communication Technology and Primary Science)",
+            "JS8009 : Bachelor of Science (Honours) in Artificial Intelligence and Educational Technology and Bachelor of Education (Honours) (Primary Mathematics)",
+            "JS8010 : Bachelor of Science (Honours) in Sports Science and Coaching and Bachelor of Education (Honours) (Physical Education)",
+            "JS8011 : Bachelor of Science (Honours) in Integrated Environmental Management and Bachelor of Education (Honours) (Science)",
+            "JS8012 : Bachelor of Social Sciences (Honours) in Sociology and Community Studies and Bachelor of Education (Honours) (Geography)",
+            "JS8013 : Bachelor of Social Sciences (Honours) in Sociology and Community Studies and Bachelor of Education (Honours) (Primary Humanities)",
+            "JS8507 : Higher Diploma in Early Childhood Education",
+            "JS8651 : Bachelor of Social Sciences (Honours) in Psychology",
+            "JS8663 : Bachelor of Arts (Honours) in Special Education",
+            "JS8674 : Bachelor of Arts (Honours) in Digital Chinese Culture and Communication",
+            "JS8675 : Bachelor of Arts (Honours) in English Studies and Digital Communication",
+            "JS8685 : Bachelor of Arts (Honours) in Creative and Digital Arts (Music)",
+            "JS8686 : Bachelor of Arts (Honours) in Creative and Digital Arts (Visual Arts)",
+            "JS8687 : Bachelor of Arts (Honours) in Heritage Education and Arts Management",
+            "JS8688 : Bachelor of Arts (Honours) in Personal Finance",
+            "JS8702 : Bachelor of Science (Honours) in Integrated Environmental Management",
+            "JS8714 : Bachelor of Science (Honours) in Artificial Intelligence and Educational Technology",
+            "JS8726 : Bachelor of Science (Honours) in Sports Science and Coaching",
+            "JS8727 : Bachelor of Science (Honours) in Speech Pathology and Rehabilitation"
+        ]
+    };
+
+    const uniFullNames = {
+        "CityU": "City University of Hong Kong (CityU)",
+        "HKBU": "Hong Kong Baptist University (HKBU)",
+        "PolyU": "The Hong Kong Polytechnic University (PolyU)",
+        "CUHK": "The Chinese University of Hong Kong (CUHK)",
+        "HKU": "The University of Hong Kong (HKU)",
+        "HKUST": "The Hong Kong University of Science and Technology (HKUST)",
+        "LU": "Lingnan University (LU)",
+        "EdUHK": "The Education University of Hong Kong (EdUHK)"
+    };
+
+    const classNumSelect = document.getElementById('classNumber');
+    for (let i = 1; i <= 35; i++) {
+        classNumSelect.options.add(new Option(i, i));
+    }
+
+    const choices = [
+        { id: "A1", band: "A" }, { id: "A2", band: "A" }, { id: "A3", band: "A" },
+        { id: "B4", band: "B" }, { id: "B5", band: "B" }, { id: "B6", band: "B" }, 
+        { id: "C7", band: "C" }, { id: "C8", band: "C" }, { id: "C9", band: "C" }, { id: "C10", band: "C" }
+    ];
+
+    const tbody = document.getElementById('formRows');
+
+    choices.forEach(choice => {
+        const row = document.createElement('tr');
+        row.className = `band-${choice.band}`;
+
+        const tdChoice = document.createElement('td');
+        tdChoice.innerHTML = `<span class="choice-badge">${choice.id}</span>`;
+        row.appendChild(tdChoice);
+
+        const tdUni = document.createElement('td');
+        const selectUni = document.createElement('select');
+        selectUni.name = `uni_${choice.id}`;
+        selectUni.id = `uni_${choice.id}`;
+        selectUni.required = true;
+        
+        selectUni.options.add(new Option("-- Select University --", ""));
+        for (const [code, fullName] of Object.entries(uniFullNames)) {
+            selectUni.options.add(new Option(fullName, code));
+        }
+        tdUni.appendChild(selectUni);
+        
+        const spanUni = document.createElement('span');
+        spanUni.className = "summary-text-display";
+        spanUni.id = `pdf_uni_${choice.id}`;
+        tdUni.appendChild(spanUni);
+        row.appendChild(tdUni);
+
+        const tdProg = document.createElement('td');
+        const selectProg = document.createElement('select');
+        selectProg.name = `prog_${choice.id}`;
+        selectProg.id = `prog_${choice.id}`;
+        selectProg.required = true;
+        selectProg.disabled = true; 
+        selectProg.options.add(new Option("-- Select Program --", ""));
+        tdProg.appendChild(selectProg);
+        
+        const spanProg = document.createElement('span');
+        spanProg.className = "summary-text-display";
+        spanProg.id = `pdf_prog_${choice.id}`;
+        tdProg.appendChild(spanProg);
+        row.appendChild(tdProg);
+
+        selectUni.addEventListener('change', function() {
+            const selectedUni = this.value;
+            selectProg.innerHTML = "";
+            selectProg.options.add(new Option("-- Select Program --", ""));
+
+            if (selectedUni && universityData[selectedUni]) {
+                universityData[selectedUni].forEach(prog => {
+                    selectProg.options.add(new Option(prog, prog));
+                });
+                selectProg.disabled = false;
+            } else {
+                selectProg.disabled = true;
+            }
+        });
+
+        tbody.appendChild(row);
+    });
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        
+        const formData = new FormData(event.target);
+        const englishName = formData.get('englishName');
+        const studentClass = formData.get('studentClass');
+        const classNumber = formData.get('classNumber');
+        const studentChoices = {};
+        
+        const seenPrograms = new Set();
+        let duplicateFound = null;
+
+        for (let i = 0; i < choices.length; i++) {
+            const c = choices[i];
+            const uniValue = formData.get(`uni_${c.id}`);
+            const progValue = formData.get(`prog_${c.id}`);
+            
+            const uniqueProgramKey = `${uniValue} | ${progValue}`;
+
+            if (seenPrograms.has(uniqueProgramKey)) {
+                duplicateFound = progValue;
+                break;
+            }
+            seenPrograms.add(uniqueProgramKey);
+
+            studentChoices[c.id] = {
+                university: uniValue,
+                program: progValue
+            };
+        }
+
+        if (duplicateFound) {
+            alert(`Validation Error:\n\nYou have selected "${duplicateFound}" more than once. Each choice must be a unique program.`);
+            return;
+        }
+
+        // Map inputs to the visible text summary elements
+        document.getElementById('lbl_englishName').innerText = englishName;
+        document.getElementById('lbl_studentClass').innerText = studentClass;
+        document.getElementById('lbl_classNumber').innerText = classNumber;
+
+        choices.forEach(c => {
+            const uniEl = document.getElementById(`uni_${c.id}`);
+            const progEl = document.getElementById(`prog_${c.id}`);
+            
+            const selectedUniText = uniEl.options[uniEl.selectedIndex] ? uniEl.options[uniEl.selectedIndex].text : '';
+            const selectedProgText = progEl.options[progEl.selectedIndex] ? progEl.options[progEl.selectedIndex].text : '';
+            
+            document.getElementById(`pdf_uni_${c.id}`).innerText = selectedUniText;
+            document.getElementById(`pdf_prog_${c.id}`).innerText = selectedProgText;
+        });
+
+        const payload = {
+            englishName: englishName,
+            class: studentClass,
+            classNumber: classNumber,
+            choices: studentChoices
+        };
+
+        const backendEndpoint = 'https://submit-form.com/G6bjqX7nF';
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Submitting...";
+
+        fetch(backendEndpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(() => {
+            // Hide selection elements, reveal summary layouts, and show the top success banner
+            document.getElementById('mainContainer').classList.add('show-summary-mode');
+            submitBtn.style.display = 'none';
+            document.getElementById('successBanner').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        })
+        .catch((error) => {
+            console.error('Submission error:', error);
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Submit Choices";
+            alert("Network error. Could not connect to the database. Please try again.");
+        });
+    }
+</script>
+
+</body>
+</html>
